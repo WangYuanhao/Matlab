@@ -37,7 +37,7 @@ function [solution] = jacobiIterations(A,b,initialX,iters,tol,debug)
         oldX = newX;
     end
 
-    if i == 100
+    if i == iters
         fprintf('The solution cannot converge within %d setp.',iters);
         solution = NaN;
     end
