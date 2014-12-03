@@ -4,7 +4,15 @@ function [x]=gaussSeidel(A,b,iters,initialx,tol,debug)
     %matrix form
     %   $ (D+L)*x^{(k)} = -U*x^{(k-1)} + b $
     %iteration form
-    % 
+    %	$x_{i}^{(k)} = \frac{-\sum_{j=1}^{i-1}a_{ij}x_{j}^{(k)} - 
+    %	\sum_{j=i+1}^{n}a_{ij}x_{j}^{(k-1)}+b_{i}}{a_{ii}}$
+    % example
+	% A = [7 -2 1 0;1 -9 3 -1;2 0 10 1;1 -1 1 6];
+	% b = [17 13 15 10]';
+	% x0 = [0 0 0 0]';
+	% [solu] = jacobiIterations(A,b,x0,100,1e-3,1);
+
+
     if nargin < 5
         error('Not enough arguments')
     end
