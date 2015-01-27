@@ -1,12 +1,25 @@
-function [solution] = jacobiIterations(A,b,initialX,iters,tol,debug)
-% solve linear system Ax = b with jacobi method
+function [solution] = jacobiIterations(A,y,initialX,iters,tol,options)
+% solve linear system Ax = y with jacobi method
 % example
 % A = [7 -2 1 0;1 -9 3 -1;2 0 10 1;1 -1 1 6];
-% b = [17 13 15 10]';
+% y = [17 13 15 10]';
 % x0 = [0 0 0 0]';
-% [solu] = jacobiIterations(A,b,x0,100,1e-3,1);
-    if nargin == 5
+% options.debug = 0;
+% options.relaxation = 0.8;
+% [solu] = jacobiIterations(A,y,x0,100,1e-3,options);
+    
+    if ~isfield(options,'debug')
         debug = 0;
+    else
+        debug = options.debug;
+    end
+    
+   
+    if ~isfield(options,'relaxation')
+        omega = 1;
+    %using relaxation method
+    else
+        omega = options.relaxation;
     end
     
     diagA = diag(diag(A));
@@ -17,7 +30,9 @@ function [solution] = jacobiIterations(A,b,initialX,iters,tol,debug)
     for i = 1:iters
         
         % update fomula
-        newX = - diagA\(upperA + lowerA)*oldX + diagA\b;
+       newX = - omega*diagA\(upperA + lowerA)*oldX + omega*diagA\y + ...
+           (1-omega)*oldX;
+        %newX = oldX + omega*diagA*(y - A*oldX);
         
         if debug == 1
             fprintf('During %d th iteration,the solution is:\n',i)
@@ -38,7 +53,7 @@ function [solution] = jacobiIterations(A,b,initialX,iters,tol,debug)
     end
 
     if i == iters
-        fprintf('The solution cannot converge within %d setp.',iters);
+        fprintf('The solution cannot converge within %d setp\n',iters);
         solution = NaN;
     end
 end
