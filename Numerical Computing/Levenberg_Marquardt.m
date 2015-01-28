@@ -51,7 +51,7 @@ for it = 1:n_iters
     end
     
     % Apply the damping facotr to the Hessian matrix
-    H_lm = H + H*(lamda*eye(Nparams));
+    H_lm = H + lamda*diag(diag(H));
     
     % Compute the updated paramters
     dp = -inv(H_lm)*(J'*d(:));
