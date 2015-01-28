@@ -31,7 +31,7 @@ for i = 1:iters
             sqErrorGuess = sum((Y0 - syntheticY).^2);
         end
     end
-    hatA = A + A*gamma*eye(numParams);
+    hatA = A + gamma*diag(diag(A));
     
     temp = -inv(hatA)*y;
     a_lm = a0 + temp(1);
